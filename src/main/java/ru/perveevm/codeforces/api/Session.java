@@ -29,6 +29,12 @@ import java.util.stream.Collectors;
 
 /**
  * @author Perveev Mike (perveev_m@mail.ru)
+ *
+ * This class performs CodeForces API calls and parses resonse into corresponding entities.
+ * All methods are named accordingly to {@see <a href="https://codeforces.com/apiHelp">CodeForces API help page</a>}
+ *
+ * {@link SessionException} is thrown when request parameters are invalid or the requests are sent too often
+ * or CodeForces API is unavailable by any other reason.
  */
 public class Session implements Closeable {
     private final static String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
@@ -42,11 +48,19 @@ public class Session implements Closeable {
     private final CloseableHttpClient client = HttpClients.createDefault();
     private final Gson gson = new Gson();
 
+    /**
+     * @param key CodeForces API <code>key</code>
+     * @param secret CodeForces API <code>secret</code>
+     */
     public Session(final String key, final String secret) {
         this.key = key;
         this.secret = secret;
     }
 
+    /**
+     * Sets response language
+     * @param lang new response language
+     */
     public void setLang(final Language lang) {
         this.lang = lang;
     }
