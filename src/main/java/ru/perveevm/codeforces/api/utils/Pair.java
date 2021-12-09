@@ -1,5 +1,8 @@
 package ru.perveevm.codeforces.api.utils;
 
+/**
+ * @author Perveev Mike (perveev_m@mail.ru)
+ */
 public class Pair<T1, T2> {
     private final T1 first;
     private final T2 second;

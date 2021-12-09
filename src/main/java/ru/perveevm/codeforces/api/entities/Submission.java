@@ -3,6 +3,9 @@ package ru.perveevm.codeforces.api.entities;
 import ru.perveevm.codeforces.api.entities.enumerations.SubmissionTestset;
 import ru.perveevm.codeforces.api.entities.enumerations.SubmissionVerdict;
 
+/**
+ * @author Perveev Mike (perveev_m@mail.ru)
+ */
 public class Submission {
     private Integer id;
     private Integer contestId;

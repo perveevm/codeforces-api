@@ -2,6 +2,9 @@ package ru.perveevm.codeforces.api.entities;
 
 import ru.perveevm.codeforces.api.entities.enumerations.ParticipantType;
 
+/**
+ * @author Perveev Mike (perveev_m@mail.ru)
+ */
 public class Party {
     private Integer contestId;
     private Member[] members;

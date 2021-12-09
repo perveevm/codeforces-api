@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Perveev Mike (perveev_m@mail.ru)
+ */
 public class ReflectionUtils {
     public static List<NameValuePair> encodeMethodParameters(final Method method, final Object... values) {
         Parameter[] parameters = method.getParameters();

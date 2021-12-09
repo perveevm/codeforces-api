@@ -3,6 +3,9 @@ package ru.perveevm.codeforces.api.entities;
 import ru.perveevm.codeforces.api.entities.enumerations.ContestPhase;
 import ru.perveevm.codeforces.api.entities.enumerations.ContestType;
 
+/**
+ * @author Perveev Mike (perveev_m@mail.ru)
+ */
 public class Contest {
     private Integer id;
     private String name;

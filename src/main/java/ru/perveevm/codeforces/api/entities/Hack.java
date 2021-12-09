@@ -2,6 +2,9 @@ package ru.perveevm.codeforces.api.entities;
 
 import ru.perveevm.codeforces.api.entities.enumerations.HackVerdict;
 
+/**
+ * @author Perveev Mike (perveev_m@mail.ru)
+ */
 public class Hack {
     private Integer id;
     private Integer creationTimeSeconds;

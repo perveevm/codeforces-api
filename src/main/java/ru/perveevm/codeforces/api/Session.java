@@ -27,6 +27,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ * @author Perveev Mike (perveev_m@mail.ru)
+ */
 public class Session implements Closeable {
     private final static String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
     private final static String BASE_URL = "https://codeforces.com/api/";
