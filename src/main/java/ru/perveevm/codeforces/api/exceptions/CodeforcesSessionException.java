@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 /**
  * @author Perveev Mike (perveev_m@mail.ru)
  */
-public class SessionException extends Exception {
-    public SessionException(final String message) {
+public class CodeforcesSessionException extends Exception {
+    public CodeforcesSessionException(final String message) {
         super(message);
     }
 
-    public SessionException(final String message, final Throwable cause) {
+    public CodeforcesSessionException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

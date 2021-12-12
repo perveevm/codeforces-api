@@ -2,7 +2,6 @@ package ru.perveevm.codeforces.api.utils;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import ru.perveevm.codeforces.api.exceptions.SessionException;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
