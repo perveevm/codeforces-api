@@ -14,6 +14,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import ru.perveevm.codeforces.api.entities.*;
+import ru.perveevm.codeforces.api.exceptions.SessionBadResponseException;
+import ru.perveevm.codeforces.api.exceptions.SessionException;
+import ru.perveevm.codeforces.api.exceptions.SessionFailedRequestException;
+import ru.perveevm.codeforces.api.exceptions.SessionHTTPErrorException;
 import ru.perveevm.codeforces.api.json.JSONResponse;
 import ru.perveevm.codeforces.api.json.JSONResponseStatus;
 import ru.perveevm.codeforces.api.utils.Pair;
@@ -170,25 +174,25 @@ public class Session implements Closeable {
         try {
             response = sendPostRequest(BASE_URL + methodName, extendedParameters);
         } catch (IOException e) {
-            throw new SessionException("Error happened while sending POST request: " + e.getMessage(), e);
+            throw new SessionHTTPErrorException(BASE_URL + methodName, extendedParameters, e);
         }
 
         if (response.getStatusLine().getStatusCode() != 200) {
-            throw new SessionException("Error happened while sending POST request, status code: "
-                    + response.getStatusLine().getStatusCode() + ", reason: "
-                    + response.getStatusLine().getReasonPhrase());
+            throw new SessionBadResponseException(BASE_URL + methodName, extendedParameters,
+                    response.getStatusLine().getStatusCode());
         }
 
         String json;
         try {
             json = EntityUtils.toString(response.getEntity());
         } catch (IOException | ParseException e) {
-            throw new SessionException("Error happened while parsing server response: " + e.getMessage(), e);
+            throw new SessionBadResponseException(BASE_URL + methodName, extendedParameters, e);
         }
 
         JSONResponse jsonResponse = gson.fromJson(json, JSONResponse.class);
         if (jsonResponse.getStatus() == JSONResponseStatus.FAILED) {
-            throw new SessionException("Failed to perform request, server comment: " + jsonResponse.getComment());
+            throw new SessionFailedRequestException(BASE_URL + methodName, extendedParameters,
+                    jsonResponse.getComment());
         }
 
         return jsonResponse.getResult();

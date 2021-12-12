@@ -2,7 +2,7 @@ package ru.perveevm.codeforces.api.utils;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import ru.perveevm.codeforces.api.SessionException;
+import ru.perveevm.codeforces.api.exceptions.SessionException;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -26,11 +26,11 @@ public class ReflectionUtils {
         return requestParameters;
     }
 
-    public static Method getMethodByName(final Class<?> clazz, final String name) throws SessionException {
+    public static Method getMethodByName(final Class<?> clazz, final String name) {
         Optional<Method> foundMethod = Arrays.stream(clazz.getMethods())
                 .filter(p -> p.getName().equals(name)).findFirst();
         if (foundMethod.isEmpty()) {
-            throw new SessionException("There is no method with name: " + name);
+            throw new IllegalArgumentException("There is no API method with name: " + name);
         } else {
             return foundMethod.get();
         }
