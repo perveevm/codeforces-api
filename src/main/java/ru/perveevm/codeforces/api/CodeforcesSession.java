@@ -96,10 +96,10 @@ public class CodeforcesSession implements Closeable {
     }
 
     public ContestStandings contestStandings(@NonNull final Integer contestId, final Integer from,
-                                             final Integer count, final String handles, final Integer room,
+                                             final Integer count, final String[] handles, final Integer room,
                                              final Boolean showUnofficial) throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("contestStandings", "contest.standings", contestId, from, count,
-                handles, room, showUnofficial), ContestStandings.class);
+                String.join(";", handles), room, showUnofficial), ContestStandings.class);
     }
 
     public Submission[] contestStatus(@NonNull final Integer contestId, final String handle,
@@ -108,9 +108,10 @@ public class CodeforcesSession implements Closeable {
                 from, count), Submission[].class);
     }
 
-    public Pair<Problem[], ProblemStatistics[]> problemsetProblems(final String tags, final String problemsetName)
+    public Pair<Problem[], ProblemStatistics[]> problemsetProblems(final String[] tags, final String problemsetName)
             throws CodeforcesSessionException {
-        JsonElement response = sendAPIRequest("problemsetProblems", "problemset.problems", tags, problemsetName);
+        JsonElement response = sendAPIRequest("problemsetProblems", "problemset.problems", String.join(";", tags),
+                problemsetName);
         JsonElement problems = response.getAsJsonObject().get("problems");
         JsonElement problemStatistics = response.getAsJsonObject().get("problemStatistics");
         return new Pair<>(gson.fromJson(problems, Problem[].class), gson.fromJson(problemStatistics,
@@ -135,8 +136,8 @@ public class CodeforcesSession implements Closeable {
         return gson.fromJson(sendAPIRequest("userFriends", "user.friends", onlyOnline), String[].class);
     }
 
-    public User[] userInfo(@NonNull final String handles) throws CodeforcesSessionException {
-        return gson.fromJson(sendAPIRequest("userInfo", "user.info", handles), User[].class);
+    public User[] userInfo(@NonNull final String[] handles) throws CodeforcesSessionException {
+        return gson.fromJson(sendAPIRequest("userInfo", "user.info", String.join(";", handles)), User[].class);
     }
 
     public User[] userRatedList(final Boolean activeOnly) throws CodeforcesSessionException {
