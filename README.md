@@ -10,7 +10,7 @@ Just call `mvn package`, it will build `codeforces-api-VERSION.jar` file for you
 
 The main class is `CodeforcesSession`. It implements all API methods. Constructor takes two parameters – `key` and `secret`. You can get them in your profile settings on CodeForces.
 
-All entity classes, for example, `BlogEntry`, `Contest`, etc., are in the `ru.perveevm.codeforces.api.entities` package.
+All entity classes, for example, `Party`, `BlogEntry`, etc., are in the `ru.perveevm.codeforces.api.entities` package.
 
 ### Dependencies
 
