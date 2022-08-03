@@ -147,8 +147,9 @@ public class CodeforcesSession implements Closeable {
     public ContestStandings contestStandings(@NonNull final Integer contestId, final Integer from,
                                              final Integer count, final String[] handles, final Integer room,
                                              final Boolean showUnofficial) throws CodeforcesSessionException {
+        String joinedHandles = (handles != null ? String.join(";", handles) : null);
         return gson.fromJson(sendAPIRequest("contestStandings", "contest.standings", contestId, from, count,
-                String.join(";", handles), room, showUnofficial), ContestStandings.class);
+                joinedHandles, room, showUnofficial), ContestStandings.class);
     }
 
     /**
@@ -175,7 +176,8 @@ public class CodeforcesSession implements Closeable {
      */
     public Pair<Problem[], ProblemStatistics[]> problemsetProblems(final String[] tags, final String problemsetName)
             throws CodeforcesSessionException {
-        JsonElement response = sendAPIRequest("problemsetProblems", "problemset.problems", String.join(";", tags),
+        String joinedTags = (tags != null ? String.join(";", tags) : null);
+        JsonElement response = sendAPIRequest("problemsetProblems", "problemset.problems", joinedTags,
                 problemsetName);
         JsonElement problems = response.getAsJsonObject().get("problems");
         JsonElement problemStatistics = response.getAsJsonObject().get("problemStatistics");
