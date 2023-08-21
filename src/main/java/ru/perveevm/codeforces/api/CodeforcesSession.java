@@ -103,10 +103,13 @@ public class CodeforcesSession implements Closeable {
      * During the contest user can see only own hacks.
      *
      * @param contestId ID of the contest. It is <b>not</b> the round number. It can be seen in contest URL.
+     * @param asManager If set to <code>true</code>, the response will contain information available to contest managers.
+     *                  Otherwise, the response will contain only the information available to the participants.
+     *                  You must be a contest manager to use it.
      * @return An array of {@link Hack} objects.
      */
-    public Hack[] contestHacks(@NonNull final Integer contestId) throws CodeforcesSessionException {
-        return gson.fromJson(sendAPIRequest("contestHacks", "contest.hacks", contestId), Hack[].class);
+    public Hack[] contestHacks(@NonNull final Integer contestId, final Boolean asManager) throws CodeforcesSessionException {
+        return gson.fromJson(sendAPIRequest("contestHacks", "contest.hacks", contestId, asManager), Hack[].class);
     }
 
     /**
@@ -135,6 +138,9 @@ public class CodeforcesSession implements Closeable {
      * Returns the description of the contest and the requested part of the standings.
      *
      * @param contestId      ID of the contest. It is <b>not</b> the round number. It can be seen in contest URL.
+     * @param asManager      If set to <code>true</code>, the response will contain information available to contest
+     *                       managers. Otherwise, the response will contain only the information available to the
+     *                       participants. You must be a contest manager to use it.
      * @param from           1-based index of the standings row to start the ranklist.
      * @param count          Number of standing rows to return.
      * @param handles        Array of handles. No more than 10000 handles is accepted.
@@ -144,27 +150,31 @@ public class CodeforcesSession implements Closeable {
      *                       Otherwise, only official contestants are shown.
      * @return A {@link ContestStandings} object.
      */
-    public ContestStandings contestStandings(@NonNull final Integer contestId, final Integer from,
-                                             final Integer count, final String[] handles, final Integer room,
-                                             final Boolean showUnofficial) throws CodeforcesSessionException {
+    public ContestStandings contestStandings(@NonNull final Integer contestId, final Boolean asManager,
+                                             final Integer from, final Integer count, final String[] handles,
+                                             final Integer room, final Boolean showUnofficial)
+            throws CodeforcesSessionException {
         String joinedHandles = (handles != null ? String.join(";", handles) : null);
-        return gson.fromJson(sendAPIRequest("contestStandings", "contest.standings", contestId, from, count,
-                joinedHandles, room, showUnofficial), ContestStandings.class);
+        return gson.fromJson(sendAPIRequest("contestStandings", "contest.standings", contestId,
+                asManager, from, count, joinedHandles, room, showUnofficial), ContestStandings.class);
     }
 
     /**
      * Returns submissions for specified contest. Optionally can return submissions of specified user.
      *
      * @param contestId ID of the contest. It is <b>not</b> the round number. It can be seen in contest URL.
+     * @param asManager If set to <code>true</code>, the response will contain information available to contest
+     *                  managers. Otherwise, the response will contain only the information available to the
+     *                  participants. You must be a contest manager to use it.
      * @param handle    Codeforces user handle.
      * @param from      1-based index of the first submission to return.
      * @param count     Number of returned submissions.
      * @return An array of {@link Submission} objects sorted in decreasing order of submission id.
      */
-    public Submission[] contestStatus(@NonNull final Integer contestId, final String handle,
+    public Submission[] contestStatus(@NonNull final Integer contestId, final Boolean asManager, final String handle,
                                       final Integer from, final Integer count) throws CodeforcesSessionException {
-        return gson.fromJson(sendAPIRequest("contestStatus", "contest.status", contestId, handle,
-                from, count), Submission[].class);
+        return gson.fromJson(sendAPIRequest("contestStatus", "contest.status", contestId, asManager,
+                handle, from, count), Submission[].class);
     }
 
     /**
@@ -241,12 +251,17 @@ public class CodeforcesSession implements Closeable {
     /**
      * Returns the list users who have participated in at least one rated contest.
      *
-     * @param activeOnly If <code>true</code> then only users, who participated in rated contest during the last month
+     * @param activeOnly     If <code>true</code> then only users, who participated in rated contest during the last month
      *                   are returned. Otherwise, all users with at least one rated contest are returned.
+     * @param includeRetired If <code>true</code>, the method returns all rated users, otherwise the method returns
+     *                       only users, that were online at last month.
+     * @param contestId      Id of the contest. It is <b>not</b> the round number. It can be seen in contest URL.
      * @return An array of {@link User} objects, sorted in decreasing order of rating.
      */
-    public User[] userRatedList(final Boolean activeOnly) throws CodeforcesSessionException {
-        return gson.fromJson(sendAPIRequest("userRatedList", "user.ratedList", activeOnly), User[].class);
+    public User[] userRatedList(final Boolean activeOnly, final Boolean includeRetired, final Integer contestId)
+            throws CodeforcesSessionException {
+        return gson.fromJson(sendAPIRequest("userRatedList", "user.ratedList", activeOnly,
+                includeRetired, contestId), User[].class);
     }
 
     /**
