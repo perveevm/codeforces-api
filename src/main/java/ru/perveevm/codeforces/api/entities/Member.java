@@ -1,9 +1,9 @@
 package ru.perveevm.codeforces.api.entities;
 
 /**
- * @author Perveev Mike (perveev_m@mail.ru)
- *
  * Represents a member of a party.
+ *
+ * @author Perveev Mike (perveev_m@mail.ru)
  */
 public class Member {
     private String handle;

@@ -1,9 +1,9 @@
 package ru.perveevm.codeforces.api.entities.enumerations;
 
 /**
- * @author Perveev Mike (perveev_m@mail.ru)
- * <p>
  * Represents a participation type.
+ *
+ * @author Perveev Mike (perveev_m@mail.ru)
  */
 public enum ParticipantType {
     /**

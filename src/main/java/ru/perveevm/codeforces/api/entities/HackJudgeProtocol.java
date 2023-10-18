@@ -1,9 +1,9 @@
 package ru.perveevm.codeforces.api.entities;
 
 /**
- * @author Perveev Mike (perveev_m@mail.ru)
- * <p>
  * Represents a hack judge protocol.
+ *
+ * @author Perveev Mike (perveev_m@mail.ru)
  */
 public class HackJudgeProtocol {
     private Boolean manual;

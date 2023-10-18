@@ -1,9 +1,9 @@
 package ru.perveevm.codeforces.api.entities;
 
 /**
- * @author Perveev Mike (perveev_m@mail.ru)
- * <p>
  * Represents a Codeforces blog entry. May be in either short or full version.
+ *
+ * @author Perveev Mike (perveev_m@mail.ru)
  */
 public class BlogEntry {
     private Integer id;

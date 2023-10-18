@@ -4,9 +4,9 @@ import ru.perveevm.codeforces.api.entities.enumerations.ContestPhase;
 import ru.perveevm.codeforces.api.entities.enumerations.ContestType;
 
 /**
- * @author Perveev Mike (perveev_m@mail.ru)
- * <p>
  * Represents a contest on Codeforces.
+ *
+ * @author Perveev Mike (perveev_m@mail.ru)
  */
 public class Contest {
     private Integer id;

@@ -1,9 +1,9 @@
 package ru.perveevm.codeforces.api.entities;
 
 /**
- * @author Perveev Mike (perveev_m@mail.ru)
- * <p>
  * Represents a participation of user in rated contest.
+ *
+ * @author Perveev Mike (perveev_m@mail.ru)
  */
 public class RatingChange {
     private Integer contestId;

@@ -21,7 +21,6 @@ import ru.perveevm.codeforces.api.exceptions.CodeforcesSessionFailedRequestExcep
 import ru.perveevm.codeforces.api.exceptions.CodeforcesSessionHTTPErrorException;
 import ru.perveevm.codeforces.api.json.JSONResponse;
 import ru.perveevm.codeforces.api.json.JSONResponseStatus;
-import ru.perveevm.codeforces.api.utils.Pair;
 import ru.perveevm.codeforces.api.utils.ReflectionUtils;
 
 import java.io.Closeable;
@@ -34,13 +33,12 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
- * @author Perveev Mike (perveev_m@mail.ru)
- * <p>
  * This class performs CodeForces API calls and parses resonse into corresponding entities.
  * All methods are named accordingly to <a href="https://codeforces.com/apiHelp">CodeForces API help page</a>
- * <p>
  * {@link CodeforcesSessionException} is thrown when request parameters are invalid or the requests are sent too often
  * or CodeForces API is unavailable by any other reason.
+ *
+ * @author Perveev Mike (perveev_m@mail.ru)
  */
 public class CodeforcesSession implements Closeable {
     private final static String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
@@ -68,6 +66,7 @@ public class CodeforcesSession implements Closeable {
      *
      * @param lang new response language
      */
+    @SuppressWarnings("unused")
     public void setLang(final Language lang) {
         this.lang = lang;
     }
@@ -83,6 +82,7 @@ public class CodeforcesSession implements Closeable {
      * @param blogEntryId ID of the blog entry. It can be seen in blog entry URL.
      * @return An array of {@link  Comment} objects.
      */
+    @SuppressWarnings("unused")
     public Comment[] blogEntryComments(@NonNull final Integer blogEntryId) throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("blogEntryComments", "blogEntry.comments", blogEntryId), Comment[].class);
     }
@@ -93,6 +93,7 @@ public class CodeforcesSession implements Closeable {
      * @param blogEntryId ID of the blog entry. It can be seen in blog entry URL.
      * @return A {@link BlogEntry} object in full version.
      */
+    @SuppressWarnings("unused")
     public BlogEntry blogEntryView(@NonNull final Integer blogEntryId) throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("blogEntryView", "blogEntry.view", blogEntryId), BlogEntry.class);
     }
@@ -108,6 +109,7 @@ public class CodeforcesSession implements Closeable {
      *                  You must be a contest manager to use it.
      * @return An array of {@link Hack} objects.
      */
+    @SuppressWarnings("unused")
     public Hack[] contestHacks(@NonNull final Integer contestId, final Boolean asManager) throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("contestHacks", "contest.hacks", contestId, asManager), Hack[].class);
     }
@@ -119,6 +121,7 @@ public class CodeforcesSession implements Closeable {
      * @return An array of {@link Contest} objects.
      * All available contests for a calling user will be returned too, including mashups and private gyms.
      */
+    @SuppressWarnings("unused")
     public Contest[] contestList(final Boolean gym) throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("contestList", "contest.list", gym), Contest[].class);
     }
@@ -129,6 +132,7 @@ public class CodeforcesSession implements Closeable {
      * @param contestId ID of the contest. It is <b>not</b> the round number. It can be seen in contest URL.
      * @return An array of {@link RatingChange} objects.
      */
+    @SuppressWarnings("unused")
     public RatingChange[] contestRatingChanges(@NonNull final Integer contestId) throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("contestRatingChanges", "contest.ratingChanges", contestId),
                 RatingChange[].class);
@@ -150,6 +154,7 @@ public class CodeforcesSession implements Closeable {
      *                       Otherwise, only official contestants are shown.
      * @return A {@link ContestStandings} object.
      */
+    @SuppressWarnings("unused")
     public ContestStandings contestStandings(@NonNull final Integer contestId, final Boolean asManager,
                                              final Integer from, final Integer count, final String[] handles,
                                              final Integer room, final Boolean showUnofficial)
@@ -171,6 +176,7 @@ public class CodeforcesSession implements Closeable {
      * @param count     Number of returned submissions.
      * @return An array of {@link Submission} objects sorted in decreasing order of submission id.
      */
+    @SuppressWarnings("unused")
     public Submission[] contestStatus(@NonNull final Integer contestId, final Boolean asManager, final String handle,
                                       final Integer from, final Integer count) throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("contestStatus", "contest.status", contestId, asManager,
@@ -184,14 +190,15 @@ public class CodeforcesSession implements Closeable {
      * @param problemsetName Custom problemset's short name, like 'acmsguru'
      * @return An array of {@link Problem} objects and an array of {@link ProblemStatistics} objects.
      */
-    public Pair<Problem[], ProblemStatistics[]> problemsetProblems(final String[] tags, final String problemsetName)
+    @SuppressWarnings("unused")
+    public ProblemsetProblems problemsetProblems(final String[] tags, final String problemsetName)
             throws CodeforcesSessionException {
         String joinedTags = (tags != null ? String.join(";", tags) : null);
         JsonElement response = sendAPIRequest("problemsetProblems", "problemset.problems", joinedTags,
                 problemsetName);
         JsonElement problems = response.getAsJsonObject().get("problems");
         JsonElement problemStatistics = response.getAsJsonObject().get("problemStatistics");
-        return new Pair<>(gson.fromJson(problems, Problem[].class), gson.fromJson(problemStatistics,
+        return new ProblemsetProblems(gson.fromJson(problems, Problem[].class), gson.fromJson(problemStatistics,
                 ProblemStatistics[].class));
     }
 
@@ -202,6 +209,7 @@ public class CodeforcesSession implements Closeable {
      * @param problemsetName Custom problemset's short name, like 'acmsguru'
      * @return An array of {@link Submission} objects.
      */
+    @SuppressWarnings("unused")
     public Submission[] problemsetRecentStatus(@NonNull final Integer count, final String problemsetName)
             throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("problemsetRecentStatus", "problemset.recentStatus", count,
@@ -214,6 +222,7 @@ public class CodeforcesSession implements Closeable {
      * @param maxCount Number of recent actions to return. Can be up to 100.
      * @return An array of {@link RecentAction} objects.
      */
+    @SuppressWarnings("unused")
     public RecentAction[] recentActions(@NonNull final Integer maxCount) throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("recentActions", "recentActions", maxCount), RecentAction[].class);
     }
@@ -224,6 +233,7 @@ public class CodeforcesSession implements Closeable {
      * @param handle Codeforces user handle.
      * @return An array of {@link BlogEntry} objects in a short form.
      */
+    @SuppressWarnings("unused")
     public BlogEntry[] userBlogEntries(@NonNull final String handle) throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("userBlogEntries", "user.blogEntries", handle), BlogEntry[].class);
     }
@@ -234,6 +244,7 @@ public class CodeforcesSession implements Closeable {
      * @param onlyOnline If <code>true</code> — only online friends are returned. Otherwise, all friends are returned.
      * @return An array of {@link String} objects — users' handles.
      */
+    @SuppressWarnings("unused")
     public String[] userFriends(final Boolean onlyOnline) throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("userFriends", "user.friends", onlyOnline), String[].class);
     }
@@ -244,6 +255,7 @@ public class CodeforcesSession implements Closeable {
      * @param handles An array of handles. No more than 10000 handles is accepted.
      * @return An array of {@link User} objects for requested handles.
      */
+    @SuppressWarnings("unused")
     public User[] userInfo(@NonNull final String[] handles) throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("userInfo", "user.info", String.join(";", handles)), User[].class);
     }
@@ -252,12 +264,13 @@ public class CodeforcesSession implements Closeable {
      * Returns the list users who have participated in at least one rated contest.
      *
      * @param activeOnly     If <code>true</code> then only users, who participated in rated contest during the last month
-     *                   are returned. Otherwise, all users with at least one rated contest are returned.
+     *                       are returned. Otherwise, all users with at least one rated contest are returned.
      * @param includeRetired If <code>true</code>, the method returns all rated users, otherwise the method returns
      *                       only users, that were online at last month.
      * @param contestId      Id of the contest. It is <b>not</b> the round number. It can be seen in contest URL.
      * @return An array of {@link User} objects, sorted in decreasing order of rating.
      */
+    @SuppressWarnings("unused")
     public User[] userRatedList(final Boolean activeOnly, final Boolean includeRetired, final Integer contestId)
             throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("userRatedList", "user.ratedList", activeOnly,
@@ -270,6 +283,7 @@ public class CodeforcesSession implements Closeable {
      * @param handle Codeforces user handle.
      * @return An array of {@link RatingChange} objects for requested user.
      */
+    @SuppressWarnings("unused")
     public RatingChange[] userRating(@NonNull final String handle) throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("userRating", "user.rating", handle), RatingChange[].class);
     }
@@ -282,6 +296,7 @@ public class CodeforcesSession implements Closeable {
      * @param count  Number of returned submissions.
      * @return An array of {@link Submission} objects, sorted in decreasing order of submission id.
      */
+    @SuppressWarnings("unused")
     public Submission[] userStatus(@NonNull final String handle, final Integer from, final Integer count)
             throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("userStatus", "user.status", handle, from, count), Submission[].class);

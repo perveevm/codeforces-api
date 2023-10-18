@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author Perveev Mike (perveev_m@mail.ru)
- * <p>
  * Some methods that help to perform requests easier.
+ *
+ * @author Perveev Mike (perveev_m@mail.ru)
  */
 public class ReflectionUtils {
     /**

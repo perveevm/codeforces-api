@@ -1,9 +1,9 @@
 package ru.perveevm.codeforces.api.entities;
 
 /**
- * @author Perveev Mike (perveev_m@mail.ru)
- * <p>
  * Represents a statistic data about a problem.
+ *
+ * @author Perveev Mike (perveev_m@mail.ru)
  */
 public class ProblemStatistics {
     private Integer contestId;

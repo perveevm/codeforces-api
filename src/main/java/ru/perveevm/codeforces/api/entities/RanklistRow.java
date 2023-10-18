@@ -1,9 +1,9 @@
 package ru.perveevm.codeforces.api.entities;
 
 /**
- * @author Perveev Mike (perveev_m@mail.ru)
- * <p>
  * Represents a ranklist row.
+ *
+ * @author Perveev Mike (perveev_m@mail.ru)
  */
 public class RanklistRow {
     private Party party;

@@ -3,9 +3,9 @@ package ru.perveevm.codeforces.api.entities;
 import ru.perveevm.codeforces.api.entities.enumerations.ProblemResultType;
 
 /**
- * @author Perveev Mike (perveev_m@mail.ru)
- * <p>
  * Represents a submissions results of a party for a problem.
+ *
+ * @author Perveev Mike (perveev_m@mail.ru)
  */
 public class ProblemResult {
     private Double points;

@@ -5,12 +5,14 @@ import org.apache.http.NameValuePair;
 import java.util.List;
 
 /**
- * @author Perveev Mike (perveev_m@mail.ru)
- * <p>
  * Thrown when the response JSON status is FAILED.
+ *
+ * @author Perveev Mike (perveev_m@mail.ru)
  */
 public class CodeforcesSessionFailedRequestException extends CodeforcesSessionException {
     /**
+     * Constructs {@link CodeforcesSessionFailedRequestException} using request URL, parameters and response comment.
+     *
      * @param url        Request URL.
      * @param parameters A {@link List} of parameters.
      * @param comment    A response comment from JSON.
@@ -21,6 +23,9 @@ public class CodeforcesSessionFailedRequestException extends CodeforcesSessionEx
     }
 
     /**
+     * Constructs {@link CodeforcesSessionFailedRequestException} using request URL, parameters, response comment
+     * and cause exception.
+     *
      * @param url        Request URL.
      * @param parameters A {@link List} of parameters.
      * @param comment    A response comment from JSON.

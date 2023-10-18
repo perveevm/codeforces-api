@@ -3,9 +3,9 @@ package ru.perveevm.codeforces.api.entities;
 import ru.perveevm.codeforces.api.entities.enumerations.ProblemType;
 
 /**
- * @author Perveev Mike (perveev_m@mail.ru)
- * <p>
  * Represents a problem.
+ *
+ * @author Perveev Mike (perveev_m@mail.ru)
  */
 public class Problem {
     private Integer contestId;
