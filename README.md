@@ -1,4 +1,5 @@
-# codeforces-api
+# codeforces-api [![Maven Central](https://img.shields.io/maven-central/v/ru.perveevm/codeforces-api.svg)](https://search.maven.org/artifact/ru.perveevm/codeforces-api) [![javadoc](https://javadoc.io/badge2/ru.perveevm/codeforces-api/javadoc.svg)](https://javadoc.io/doc/ru.perveevm/codeforces-api)
+
 
 This project implements all Codeforces API methods described [here](https://codeforces.com/apiHelp). If there are any errors in the implementation of some methods, contact me, and I'll fix them.
 
