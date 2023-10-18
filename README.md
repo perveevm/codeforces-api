@@ -1,10 +1,10 @@
 # codeforces-api
 
-This project implements all CodeForces API methods described [here](https://codeforces.com/apiHelp). If there are any errors in the implementation of some methods, contact me, and I'll fix them.
+This project implements all Codeforces API methods described [here](https://codeforces.com/apiHelp). If there are any errors in the implementation of some methods, contact me, and I'll fix them.
 
 ### Building
 
-Just call `mvn package`, it will build `codeforces-api-VERSION.jar` file for you.
+Use `mvn package` if you need a `.jar` file.
 
 ### Usage
 
@@ -12,6 +12,12 @@ The main class is `CodeforcesSession`. It implements all API methods. Constructo
 
 All entity classes, for example, `Party`, `BlogEntry`, etc., are in the `ru.perveevm.codeforces.api.entities` package.
 
-### Dependencies
+To add it into your pom.xml use:
 
-All dependencies that were used you can find in `pom.xml` config file.
+```xml
+<dependency>
+    <groupId>ru.perveevm</groupId>
+    <artifactId>codeforces-api</artifactId>
+    <version>Put the version you want here</version>
+</dependency>
+```
