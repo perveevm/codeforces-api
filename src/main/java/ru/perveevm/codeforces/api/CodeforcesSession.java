@@ -256,8 +256,10 @@ public class CodeforcesSession implements Closeable {
      * @return An array of {@link User} objects for requested handles.
      */
     @SuppressWarnings("unused")
-    public User[] userInfo(@NonNull final String[] handles) throws CodeforcesSessionException {
-        return gson.fromJson(sendAPIRequest("userInfo", "user.info", String.join(";", handles)), User[].class);
+    public User[] userInfo(@NonNull final String[] handles, final Boolean checkHistoricHandles)
+            throws CodeforcesSessionException {
+        return gson.fromJson(sendAPIRequest("userInfo", "user.info",
+                String.join(";", handles), checkHistoricHandles), User[].class);
     }
 
     /**
