@@ -15,6 +15,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import ru.perveevm.codeforces.api.entities.*;
 import ru.perveevm.codeforces.api.entities.enumerations.Language;
+import ru.perveevm.codeforces.api.entities.enumerations.ParticipantType;
 import ru.perveevm.codeforces.api.exceptions.CodeforcesSessionBadResponseException;
 import ru.perveevm.codeforces.api.exceptions.CodeforcesSessionException;
 import ru.perveevm.codeforces.api.exceptions.CodeforcesSessionFailedRequestException;
@@ -26,10 +27,7 @@ import ru.perveevm.codeforces.api.utils.ReflectionUtils;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -117,13 +115,14 @@ public class CodeforcesSession implements Closeable {
     /**
      * Returns information about all available contests.
      *
-     * @param gym If <code>true</code> — than gym contests are returned. Otherwise, regular contests are returned.
+     * @param gym       If <code>true</code> — than gym contests are returned. Otherwise, regular contests are returned.
+     * @param groupCode If is not <code>null</code>, filters contests from given group. Account should have at least read permission to group.
      * @return An array of {@link Contest} objects.
      * All available contests for a calling user will be returned too, including mashups and private gyms.
      */
     @SuppressWarnings("unused")
-    public Contest[] contestList(final Boolean gym) throws CodeforcesSessionException {
-        return gson.fromJson(sendAPIRequest("contestList", "contest.list", gym), Contest[].class);
+    public Contest[] contestList(final Boolean gym, final String groupCode) throws CodeforcesSessionException {
+        return gson.fromJson(sendAPIRequest("contestList", "contest.list", gym, groupCode), Contest[].class);
     }
 
     /**
@@ -141,46 +140,55 @@ public class CodeforcesSession implements Closeable {
     /**
      * Returns the description of the contest and the requested part of the standings.
      *
-     * @param contestId      ID of the contest. It is <b>not</b> the round number. It can be seen in contest URL.
-     * @param asManager      If set to <code>true</code>, the response will contain information available to contest
-     *                       managers. Otherwise, the response will contain only the information available to the
-     *                       participants. You must be a contest manager to use it.
-     * @param from           1-based index of the standings row to start the ranklist.
-     * @param count          Number of standing rows to return.
-     * @param handles        Array of handles. No more than 10000 handles is accepted.
-     * @param room           If specified, then only participants from this room will be shown in the result.
-     *                       If not — all the participants will be shown.
-     * @param showUnofficial If true then all participants (virtual, out of competition) are shown.
-     *                       Otherwise, only official contestants are shown.
+     * @param contestId        ID of the contest. It is <b>not</b> the round number. It can be seen in contest URL.
+     * @param asManager        If set to <code>true</code>, the response will contain information available to contest
+     *                         managers. Otherwise, the response will contain only the information available to the
+     *                         participants. You must be a contest manager to use it.
+     * @param from             1-based index of the standings row to start the ranklist.
+     * @param count            Number of standing rows to return.
+     * @param handles          Array of handles. No more than 10000 handles is accepted.
+     * @param room             If specified, then only participants from this room will be shown in the result.
+     *                         If not — all the participants will be shown.
+     * @param showUnofficial   If true then all participants (virtual, out of competition) are shown.
+     *                         Otherwise, only official contestants are shown.
+     * @param participantTypes Array of {@link ParticipantType} enums, filters only participants with one of
+     *                         provided types.
      * @return A {@link ContestStandings} object.
      */
     @SuppressWarnings("unused")
     public ContestStandings contestStandings(@NonNull final Integer contestId, final Boolean asManager,
                                              final Integer from, final Integer count, final String[] handles,
-                                             final Integer room, final Boolean showUnofficial)
+                                             final Integer room, final Boolean showUnofficial, final ParticipantType[] participantTypes)
             throws CodeforcesSessionException {
         String joinedHandles = (handles != null ? String.join(";", handles) : null);
+        String joinedParticipantTypes = (participantTypes != null
+                ? Arrays.stream(participantTypes)
+                .map(Enum::toString)
+                .collect(Collectors.joining(","))
+                : null);
         return gson.fromJson(sendAPIRequest("contestStandings", "contest.standings", contestId,
-                asManager, from, count, joinedHandles, room, showUnofficial), ContestStandings.class);
+                asManager, from, count, joinedHandles, room, showUnofficial, joinedParticipantTypes), ContestStandings.class);
     }
 
     /**
      * Returns submissions for specified contest. Optionally can return submissions of specified user.
      *
-     * @param contestId ID of the contest. It is <b>not</b> the round number. It can be seen in contest URL.
-     * @param asManager If set to <code>true</code>, the response will contain information available to contest
-     *                  managers. Otherwise, the response will contain only the information available to the
-     *                  participants. You must be a contest manager to use it.
-     * @param handle    Codeforces user handle.
-     * @param from      1-based index of the first submission to return.
-     * @param count     Number of returned submissions.
+     * @param contestId      ID of the contest. It is <b>not</b> the round number. It can be seen in contest URL.
+     * @param asManager      If set to <code>true</code>, the response will contain information available to contest
+     *                       managers. Otherwise, the response will contain only the information available to the
+     *                       participants. You must be a contest manager to use it.
+     * @param handle         Codeforces user handle.
+     * @param from           1-based index of the first submission to return.
+     * @param count          Number of returned submissions.
+     * @param includeSources If set to <code>true</code>, the response will contain sources. Available only if
+     *                       {@param asManager} is <code>true</code>.
      * @return An array of {@link Submission} objects sorted in decreasing order of submission id.
      */
     @SuppressWarnings("unused")
     public Submission[] contestStatus(@NonNull final Integer contestId, final Boolean asManager, final String handle,
-                                      final Integer from, final Integer count) throws CodeforcesSessionException {
+                                      final Integer from, final Integer count, final Boolean includeSources) throws CodeforcesSessionException {
         return gson.fromJson(sendAPIRequest("contestStatus", "contest.status", contestId, asManager,
-                handle, from, count), Submission[].class);
+                handle, from, count, includeSources), Submission[].class);
     }
 
     /**
@@ -293,15 +301,19 @@ public class CodeforcesSession implements Closeable {
     /**
      * Returns submissions of specified user.
      *
-     * @param handle Codeforces user handle.
-     * @param from   1-based index of the first submission to return.
-     * @param count  Number of returned submissions.
+     * @param handle         Codeforces user handle.
+     * @param from           1-based index of the first submission to return.
+     * @param count          Number of returned submissions.
+     * @param includeSources If set to <code>true</code>, the response will contain sources. Available only if
+     *                       {@param asManager} is <code>true</code>.
      * @return An array of {@link Submission} objects, sorted in decreasing order of submission id.
      */
     @SuppressWarnings("unused")
-    public Submission[] userStatus(@NonNull final String handle, final Integer from, final Integer count)
+    public Submission[] userStatus(@NonNull final String handle, final Integer from, final Integer count,
+                                   final Boolean includeSources)
             throws CodeforcesSessionException {
-        return gson.fromJson(sendAPIRequest("userStatus", "user.status", handle, from, count), Submission[].class);
+        return gson.fromJson(sendAPIRequest("userStatus", "user.status", handle, from, count,
+                includeSources), Submission[].class);
     }
 
     private JsonElement sendAPIRequest(final String method, final String methodName, final Object... values)

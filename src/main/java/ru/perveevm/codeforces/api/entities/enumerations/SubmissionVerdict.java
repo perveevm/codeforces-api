@@ -73,5 +73,9 @@ public enum SubmissionVerdict {
     /**
      * Solution is rejected by some reason.
      */
-    REJECTED
+    REJECTED,
+    /**
+     * Solution was submitted.
+     */
+    SUBMITTED
 }

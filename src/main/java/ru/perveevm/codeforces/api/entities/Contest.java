@@ -15,6 +15,7 @@ public class Contest {
     private ContestPhase phase;
     private Boolean frozen;
     private Integer durationSeconds;
+    private Integer freezeDurationSeconds;
     private Integer startTimeSeconds;
     private Integer relativeTimeSeconds;
     private String preparedBy;
@@ -68,6 +69,13 @@ public class Contest {
      */
     public Integer getDurationSeconds() {
         return durationSeconds;
+    }
+
+    /**
+     * @return The ranklist freeze duration of the contest in seconds if any.
+     */
+    public Integer getFreezeDurationSeconds() {
+        return freezeDurationSeconds;
     }
 
     /**
