@@ -22,6 +22,7 @@ public class Submission {
     private Integer timeConsumedMillis;
     private Integer memoryConsumedBytes;
     private Double points;
+    private String sourceBase64;
 
     /**
      * @return Submission ID. Can be found in the link.
@@ -113,5 +114,9 @@ public class Submission {
      */
     public Double getPoints() {
         return points;
+    }
+
+    public String getSourceBase64() {
+        return sourceBase64;
     }
 }
